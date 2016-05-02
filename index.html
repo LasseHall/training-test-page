@@ -47,7 +47,12 @@ Your comments: None<br/>
     document.getElementById('clienttime').innerHTML = parseInt(new Date().getTime() / 1000);
   </script>
 
-  <p id="useragent">Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36</p>
+  <p id="useragent">
+<script type="text/javascript">
+    var x = "User-agent header sent: " + navigator.userAgent;
+    document.getElementById("useragent").innerHTML = x;
+</script>
+</p>
 
 </body>
 </html>
