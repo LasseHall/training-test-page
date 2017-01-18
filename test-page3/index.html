@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>I am another page title - Sauce Labs</title>
-</head>
-<body>
+    <head>
+        <title>I am another page title - Sauce Labs</title>
+    </head>
 
-<span id="yourFile">
-Your file uploaded: None<br/>
-</span>
+    <body>
+        <span id="yourFile">Your file uploaded: None</span>
+        <br/>
 
-<div class="uploader">
-<form id="uploadForm" onsubmit="return uploadSubmit()">
-<h3>File Uploader</h3>
-<p>Choose a file on your system and then click upload.</p>
-  <form method='POST' enctype='multipart/form-data'>
-    <input id='file-upload' type='file' name='file'>
-    </br>
-    <input class="button" id='file-submit' type='submit' value='Upload'>
-  </form>
-      <script type="text/javascript">
-      function uploadSubmit() {
-        var file = document.getElementById("file-upload");
-        document.getElementById("yourFile").textContent = "Your file uploaded: " + file.value;
-        return false;
-      }
-    </script>
-</div>
-</div></body>
+        <div class="uploader">
+            <form id="uploadForm" onsubmit="return uploadSubmit()">
+                <h3>File Uploader</h3>
+                <p>Choose a file on your system and then click upload.</p>
+                <form method='POST' enctype='multipart/form-data'>
+                    <input id='file-upload' type='file' name='file'>
+                    </br>
+                    <input class="button" id='file-submit' type='submit' value='Upload'>
+                </form>
+                <script type="text/javascript">
+                    function uploadSubmit() {
+                        var file = document.getElementById("file-upload");
+                        document.getElementById("yourFile").textContent = "Your file uploaded: " + file.value;
+                        return false;
+                    }
+                </script>
+            </form>
+        </div>
+    </body>
 </html>
 
