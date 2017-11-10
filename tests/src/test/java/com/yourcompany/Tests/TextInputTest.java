@@ -36,7 +36,7 @@ public class TextInputTest extends TestBase {
         this.annotate(String.format("Submitting comment: \"%s\"", commentInputText));
         page.submitComment(commentInputText);
 
-        this.annotate(String.format("Asserting submitted comment is: \"%s\"", commentInputText));
+        this.annotate(String.format("Asserting submitted comment is: \"%s\"", commentInputText + "oops"));
         Assert.assertTrue(page.getSubmittedCommentText().contains(commentInputText));
     }
 
