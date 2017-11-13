@@ -55,8 +55,8 @@ public class TestBase  {
     public static Object[][] sauceBrowserDataProvider(Method testMethod) throws JSONException {
 
         JSONArray array = new JSONArray(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
+        System.out.println(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
         Object[][] browsers = new Object[array.length()][3];
-        System.out.println("array.length: " + array.length());
         for (int i = 0; i < array.length(); i++) {
             JSONObject browser = array.getJSONObject(i);
             browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os")};
