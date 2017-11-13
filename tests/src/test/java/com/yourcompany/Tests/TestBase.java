@@ -57,16 +57,21 @@ public class TestBase  {
         JSONArray array = new JSONArray(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
         System.out.println(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
         Object[][] browsers = new Object[array.length()][3];
-        String deviceName = "";
+        String device = "";
         for (int i = 0; i < array.length(); i++) {
             JSONObject browser = array.getJSONObject(i);
-
-            if (browser.getString("device") != null) {
-                deviceName = browser.getString("device");
-            } else {
-                deviceName = "";
+            try {
+                device = browser.getString("device");
+            } catch (org.json.JSONException e) {}
+            if (device.contains("ipad|iphone")) {
+                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), browser.getString("device")};
+            } else if (device.contains("android")) {
+                browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), browser.getString("device")};
             }
-            browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), deviceName};
+            else {
+                browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), ""};
+            }
+
         }
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
@@ -118,6 +123,8 @@ public class TestBase  {
         if (buildTag != null) {
             capabilities.setCapability("build", buildTag);
         }
+
+        System.out.println(capabilities.toString());
 
         // Launch remote browser and set it as the current thread
         System.out.println(capabilities.toString());
