@@ -57,9 +57,16 @@ public class TestBase  {
         JSONArray array = new JSONArray(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
         System.out.println(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
         Object[][] browsers = new Object[array.length()][3];
+        String deviceName = "";
         for (int i = 0; i < array.length(); i++) {
             JSONObject browser = array.getJSONObject(i);
-            browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os")};
+
+            if (browser.getString("device") != null) {
+                deviceName = browser.getString("device");
+            } else {
+                deviceName = "";
+            }
+            browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), deviceName};
         }
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
@@ -97,7 +104,7 @@ public class TestBase  {
      * @return
      * @throws MalformedURLException if an error occurs parsing the url
      */
-    protected void createDriver(String browser, String version, String os, String methodName)
+    protected void createDriver(String browser, String version, String os, String deviceName, String methodName)
             throws MalformedURLException, UnexpectedException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -105,6 +112,7 @@ public class TestBase  {
         capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
         capabilities.setCapability(CapabilityType.VERSION, version);
         capabilities.setCapability(CapabilityType.PLATFORM, os);
+        capabilities.setCapability("deviceName", deviceName);
         capabilities.setCapability("name", methodName);
 
         if (buildTag != null) {

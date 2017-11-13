@@ -5,6 +5,7 @@ import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -22,10 +23,10 @@ public class TextInputTest extends TestBase {
      * Runs a simple test verifying if the comment input is functional.
      * @throws InvalidElementStateException
      */
-    @org.testng.annotations.Test(dataProvider = "hardCodedBrowsers")
-    public void verifyCommentInputTest(String browser, String version, String os, Method method)
+    @Test(dataProvider = "hardCodedBrowsers")
+    public void verifyCommentInputTest(String browser, String version, String os, String deviceName, Method method)
             throws MalformedURLException, InvalidElementStateException, UnexpectedException {
-        this.createDriver(browser, version, os, method.getName());
+        this.createDriver(browser, version, os, deviceName, method.getName());
         WebDriver driver = this.getWebDriver();
 
         String commentInputText = UUID.randomUUID().toString();
