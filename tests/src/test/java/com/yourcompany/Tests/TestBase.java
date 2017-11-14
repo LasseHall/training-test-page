@@ -142,6 +142,7 @@ public class TestBase  {
             capabilities.setCapability("testobject_api_key", deviceName);
             capabilities.setCapability("name", methodName);
             capabilities.setCapability("tunnelIdentifier", "MyRDCTunnel");
+            capabilities.setCapability("privateDevicesOnly", true);
             webDriver.set(new RemoteWebDriver(
                     new URL("https://eu1.appium.testobject.com/wd/hub"),
                     capabilities));
@@ -175,13 +176,6 @@ public class TestBase  {
     @AfterMethod
     public void tearDown(ITestResult result) throws Exception {
         if (webDriver.get().getCapabilities().getCapability("deviceName").toString().contains("59CE6AD64AE24CC5B1451EB76B833F2E")) {
-            WebTarget resource;
-            Client client = ClientBuilder.newClient();
-            resource = client.target(TESTOBJECT_APPIUM_API_ENDPOINT);
-            resource.path("session")
-                    .path(sessionId.toString())
-                    .path("test")
-                    .request(new MediaType[]{MediaType.APPLICATION_JSON_TYPE}).put(Entity.json(Collections.singletonMap("passed", result.isSuccess() ? "passed" : "failed")));
         } else {
             ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
         }
