@@ -74,22 +74,23 @@ public class TestBase  {
             }
         }
 
-        /*JSONArray array2 = new JSONArray(System.getenv("SAUCE_ONDEMAND_RDC"));
+        JSONArray array2 = new JSONArray(System.getenv("SAUCE_ONDEMAND_RDC"));
         for (int i = 0; i < array2.length(); i++) {
             JSONObject browser = array2.getJSONObject(i);
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
-
-            if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(device, "ipad|iphone")) {
-                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), browser.getString("device")};
-            } else if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(device,"android")) {
-                browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), browser.getString("device")};
+            if (browser.getString("os").toLowerCase().contains("ipad") || browser.getString("os").toLowerCase().contains("iphone") || browser.getString("os").toLowerCase().contains("ios"))
+            {
+                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
+            } else if (browser.getString("os").toLowerCase().contains("android"))
+            {
+                browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), device};
             }
             else {
                 browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), ""};
             }
-        }*/
+        }
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
                 new Object[]{"internet explorer", "11.0", "Windows 7"},
@@ -140,7 +141,7 @@ public class TestBase  {
         if (deviceName.contains("59CE6AD64AE24CC5B1451EB76B833F2E")) {
             // set desired capabilities to launch appropriate browser on Sauce
             capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
-            capabilities.setCapability("platformVersion", version);
+            capabilities.setCapability("deviceName", version);
             capabilities.setCapability("platformName", os);
             capabilities.setCapability("testobject_api_key", deviceName);
             capabilities.setCapability("name", methodName);
