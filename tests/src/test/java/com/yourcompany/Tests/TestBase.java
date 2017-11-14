@@ -62,11 +62,11 @@ public class TestBase  {
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
-            if (browser.getString("os").toLowerCase().contains("ipad")) {
+            if (browser.getString("os").toLowerCase().contains("ipad") || browser.getString("os").toLowerCase().contains("iphone") || browser.getString("os").toLowerCase().contains("ios"))
+            {
                 browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
-            } else if (browser.getString("os").toLowerCase().contains("iphone")) {
-                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
-            } else if (browser.getString("os").toLowerCase().contains("android")) {
+            } else if (browser.getString("os").toLowerCase().contains("android"))
+            {
                 browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), device};
             }
             else {
@@ -130,25 +130,36 @@ public class TestBase  {
             throws MalformedURLException, UnexpectedException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        // set desired capabilities to launch appropriate browser on Sauce
-        capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
-        capabilities.setCapability(CapabilityType.VERSION, version);
-        capabilities.setCapability("platformVersion", version);
-        capabilities.setCapability(CapabilityType.PLATFORM, os);
-        capabilities.setCapability("deviceName", deviceName);
-        capabilities.setCapability("name", methodName);
+
 
         if (buildTag != null) {
             capabilities.setCapability("build", buildTag);
         }
 
-        System.out.println(capabilities.toString());
-
         // Launch remote browser and set it as the current thread
-        System.out.println(capabilities.toString());
-        webDriver.set(new RemoteWebDriver(
-                new URL("https://" + username + ":" + accesskey + "@ondemand.saucelabs.com:443/wd/hub"),
-                capabilities));
+        if (deviceName.contains("59CE6AD64AE24CC5B1451EB76B833F2E")) {
+            // set desired capabilities to launch appropriate browser on Sauce
+            capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
+            capabilities.setCapability("platformVersion", version);
+            capabilities.setCapability("platformName", os);
+            capabilities.setCapability("testobject_api_key", deviceName);
+            capabilities.setCapability("name", methodName);
+            webDriver.set(new RemoteWebDriver(
+                    new URL("https://eu1.appium.testobject.com/wd/hub"),
+                    capabilities));
+        } else {
+            // set desired capabilities to launch appropriate browser on Sauce
+            capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
+            capabilities.setCapability(CapabilityType.VERSION, version);
+            capabilities.setCapability("platformVersion", version);
+            capabilities.setCapability(CapabilityType.PLATFORM, os);
+            capabilities.setCapability("deviceName", deviceName);
+            capabilities.setCapability("name", methodName);
+            webDriver.set(new RemoteWebDriver(
+                    new URL("https://" + username + ":" + accesskey + "@ondemand.saucelabs.com:443/wd/hub"),
+                    capabilities));
+        }
+
 
         // set current sessionId
         String id = ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
