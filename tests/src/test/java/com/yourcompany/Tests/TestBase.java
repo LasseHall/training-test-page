@@ -145,6 +145,7 @@ public class TestBase  {
             capabilities.setCapability("platformName", os);
             capabilities.setCapability("testobject_api_key", deviceName);
             capabilities.setCapability("name", methodName);
+            capabilities.setCapability("tunnelIdentifier", "MyRDCTunnel");
             webDriver.set(new RemoteWebDriver(
                     new URL("https://eu1.appium.testobject.com/wd/hub"),
                     capabilities));
