@@ -55,7 +55,6 @@ public class TestBase  {
     public static Object[][] sauceBrowserDataProvider(Method testMethod) throws JSONException {
 
         JSONArray array = new JSONArray(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
-        System.out.println(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
         Object[][] browsers = new Object[array.length()][3];
         String device = "";
         for (int i = 0; i < array.length(); i++) {
@@ -63,16 +62,32 @@ public class TestBase  {
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
-            if (device.contains("ipad|iphone")) {
+            if (browser.getString("os").toLowerCase().contains("ipad|iphone")) {
+                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
+            } else if (browser.getString("os").toLowerCase().contains("android")) {
+                browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), device};
+            }
+            else {
+                browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), ""};
+            }
+        }
+
+        /*JSONArray array2 = new JSONArray(System.getenv("SAUCE_ONDEMAND_RDC"));
+        for (int i = 0; i < array2.length(); i++) {
+            JSONObject browser = array2.getJSONObject(i);
+            try {
+                device = browser.getString("device");
+            } catch (org.json.JSONException e) {}
+
+            if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(device, "ipad|iphone")) {
                 browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), browser.getString("device")};
-            } else if (device.contains("android")) {
+            } else if (org.apache.commons.lang3.StringUtils.containsIgnoreCase(device,"android")) {
                 browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), browser.getString("device")};
             }
             else {
                 browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), ""};
             }
-
-        }
+        }*/
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
                 new Object[]{"internet explorer", "11.0", "Windows 7"},
@@ -116,6 +131,7 @@ public class TestBase  {
         // set desired capabilities to launch appropriate browser on Sauce
         capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
         capabilities.setCapability(CapabilityType.VERSION, version);
+        capabilities.setCapability("platformVersion", version);
         capabilities.setCapability(CapabilityType.PLATFORM, os);
         capabilities.setCapability("deviceName", deviceName);
         capabilities.setCapability("name", methodName);
