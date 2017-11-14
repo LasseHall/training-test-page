@@ -83,14 +83,14 @@ public class TestBase  {
             }
         }
 
-        JSONArray array2 = new JSONArray(System.getenv("SAUCE_ONDEMAND_RDC"));
+        /*JSONArray array2 = new JSONArray(System.getenv("SAUCE_ONDEMAND_RDC"));
         for (int i = 0; i < array2.length(); i++) {
             JSONObject browser = array2.getJSONObject(i);
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
             browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), browser.getString("deviceName")};
-        }
+        }*/
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
                 new Object[]{"internet explorer", "11.0", "Windows 7"},
