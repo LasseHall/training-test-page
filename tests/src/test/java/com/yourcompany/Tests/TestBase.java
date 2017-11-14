@@ -80,16 +80,7 @@ public class TestBase  {
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
-            if (browser.getString("os").toLowerCase().contains("ipad") || browser.getString("os").toLowerCase().contains("iphone") || browser.getString("os").toLowerCase().contains("ios"))
-            {
-                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
-            } else if (browser.getString("os").toLowerCase().contains("android"))
-            {
-                browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), device};
-            }
-            else {
-                browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), ""};
-            }
+            browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), device};
         }
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
