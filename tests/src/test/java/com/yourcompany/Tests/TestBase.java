@@ -17,6 +17,13 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import java.util.Collections;
+
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,10 +42,12 @@ public class TestBase  {
 
     public String accesskey = System.getenv("SAUCE_ACCESS_KEY");
 
+    private static final String TESTOBJECT_APPIUM_API_ENDPOINT = "https://app.testobject.com/api/rest/appium/v1/";
+
     /**
      * ThreadLocal variable which contains the  {@link WebDriver} instance which is used to perform browser interactions with.
      */
-    private ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
+    private ThreadLocal<RemoteWebDriver> webDriver = new ThreadLocal<RemoteWebDriver>();
 
     /**
      * ThreadLocal variable which contains the Sauce Job Id.
@@ -165,7 +174,17 @@ public class TestBase  {
      */
     @AfterMethod
     public void tearDown(ITestResult result) throws Exception {
-        ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
+        if (webDriver.get().getCapabilities().getCapability("deviceName").toString().contains("59CE6AD64AE24CC5B1451EB76B833F2E")) {
+            WebTarget resource;
+            Client client = ClientBuilder.newClient();
+            resource = client.target(TESTOBJECT_APPIUM_API_ENDPOINT);
+            resource.path("session")
+                    .path(sessionId.toString())
+                    .path("test")
+                    .request(new MediaType[]{MediaType.APPLICATION_JSON_TYPE}).put(Entity.json(Collections.singletonMap("passed", result.isSuccess() ? "passed" : "failed")));
+        } else {
+            ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
+        }
         webDriver.get().quit();
     }
 
