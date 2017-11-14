@@ -158,7 +158,7 @@ public class TestBase  {
             capabilities.setCapability("deviceName", deviceName);
             capabilities.setCapability("name", methodName);
             webDriver.set(new RemoteWebDriver(
-                    new URL("https://" + username + ":" + accesskey + "@ondemand.saucelabs.com:443/wd/hub"),
+                    new URL("https://" + username + ":d3c745e2-9030-4c0c-8cfc-9538a6d8e895@ondemand.saucelabs.com:443/wd/hub"),
                     capabilities));
         }
 
