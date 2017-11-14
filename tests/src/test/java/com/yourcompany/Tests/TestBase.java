@@ -62,7 +62,9 @@ public class TestBase  {
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
-            if (browser.getString("os").toLowerCase().contains("ipad|iphone")) {
+            if (browser.getString("os").toLowerCase().contains("ipad")) {
+                browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
+            } else if (browser.getString("os").toLowerCase().contains("iphone")) {
                 browsers[i] = new Object[]{"Safari", browser.getString("browser-version"), browser.getString("os"), device};
             } else if (browser.getString("os").toLowerCase().contains("android")) {
                 browsers[i] = new Object[]{"Chrome", browser.getString("browser-version"), browser.getString("os"), device};
