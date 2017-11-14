@@ -47,7 +47,7 @@ public class TestBase  {
     /**
      * ThreadLocal variable which contains the  {@link WebDriver} instance which is used to perform browser interactions with.
      */
-    private ThreadLocal<RemoteWebDriver> webDriver = new ThreadLocal<RemoteWebDriver>();
+    private ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
 
     /**
      * ThreadLocal variable which contains the Sauce Job Id.
@@ -175,10 +175,7 @@ public class TestBase  {
      */
     @AfterMethod
     public void tearDown(ITestResult result) throws Exception {
-        if (webDriver.get().getCapabilities().getCapability("deviceName").toString().contains("59CE6AD64AE24CC5B1451EB76B833F2E")) {
-        } else {
-            ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
-        }
+       ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
         webDriver.get().quit();
     }
 
