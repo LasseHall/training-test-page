@@ -80,7 +80,7 @@ public class TestBase  {
             try {
                 device = browser.getString("device");
             } catch (org.json.JSONException e) {}
-            browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), device};
+            browsers[i] = new Object[]{browser.getString("browser"), browser.getString("browser-version"), browser.getString("os"), browser.getString("deviceName")};
         }
                 /*new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
@@ -124,10 +124,6 @@ public class TestBase  {
 
 
 
-        if (buildTag != null) {
-            capabilities.setCapability("build", buildTag);
-        }
-
         // Launch remote browser and set it as the current thread
         if (deviceName.contains("59CE6AD64AE24CC5B1451EB76B833F2E")) {
             // set desired capabilities to launch appropriate browser on Sauce
@@ -141,6 +137,9 @@ public class TestBase  {
                     new URL("https://eu1.appium.testobject.com/wd/hub"),
                     capabilities));
         } else {
+            if (buildTag != null) {
+                capabilities.setCapability("build", buildTag);
+            }
             // set desired capabilities to launch appropriate browser on Sauce
             capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
             capabilities.setCapability(CapabilityType.VERSION, version);
